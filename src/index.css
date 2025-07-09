@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design system with medical/wellness theme */
+/* Design system with medical/wellness theme and startup vibes */
 
 @layer base {
   :root {
@@ -16,8 +16,9 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 200 98% 39%;
+    --primary: 190 98% 55%;
     --primary-foreground: 0 0% 98%;
+    --primary-glow: 190 88% 65%;
 
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -25,7 +26,7 @@
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
 
-    --accent: 240 3.7% 15.9%;
+    --accent: 280 70% 60%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -33,9 +34,24 @@
 
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 200 98% 39%;
+    --ring: 190 98% 55%;
 
     --radius: 0.75rem;
+
+    /* Custom gradients for startup feel */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    --gradient-glow: linear-gradient(135deg, hsl(var(--primary-glow) / 0.3), hsl(var(--accent) / 0.2));
+
+    /* Shadows with brand colors */
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
+    --shadow-card: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+    /* Animation variables */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -101,7 +117,19 @@
 
 @layer components {
   .glass-card {
-    @apply backdrop-blur-md bg-white/10 border border-white/20 rounded-lg;
+    @apply backdrop-blur-md bg-white/10 border border-white/20 rounded-lg shadow-lg;
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-card);
+  }
+  
+  .glass-card:hover {
+    @apply border-white/30;
+    box-shadow: var(--shadow-elegant);
+    transition: var(--transition-smooth);
+  }
+  
+  .hero-gradient {
+    background: var(--gradient-hero);
   }
   
   .medical-gradient {
@@ -110,5 +138,42 @@
   
   .weather-gradient {
     background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .startup-button {
+    @apply relative overflow-hidden;
+    background: var(--gradient-primary);
+    transition: var(--transition-bounce);
+  }
+
+  .startup-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .floating-element {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse-glow {
+    from {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
+    }
+    to {
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.8), 0 0 60px hsl(var(--accent) / 0.4);
+    }
   }
 }

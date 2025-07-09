@@ -4,9 +4,13 @@ import { WebcamCapture } from "@/components/WebcamCapture";
 import { WeatherCard } from "@/components/WeatherCard";
 import { SkinAnalysisResults } from "@/components/SkinAnalysisResults";
 import { SkincareRecommendations } from "@/components/SkincareRecommendations";
+import { Landing } from "./Landing";
+import { Profile } from "./Profile";
+import { About } from "./About";
 import { Header } from "@/components/Header";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Cloud, Sun, CloudRain } from "lucide-react";
+import { Cloud, Sun, CloudRain, User, Info, Home } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export interface SkinAnalysis {
   skinType: string;
@@ -23,6 +27,7 @@ export interface WeatherData {
 }
 
 const Index = () => {
+  const [currentPage, setCurrentPage] = useState<'landing' | 'dashboard' | 'profile' | 'about'>('landing');
   const [skinAnalysis, setSkinAnalysis] = useState<SkinAnalysis | null>(null);
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -56,6 +61,19 @@ const Index = () => {
     setWeatherData(weather);
   };
 
+  // Render different pages based on currentPage state
+  if (currentPage === 'landing') {
+    return <Landing onGetStarted={() => setCurrentPage('dashboard')} />;
+  }
+
+  if (currentPage === 'profile') {
+    return <Profile onBack={() => setCurrentPage('dashboard')} />;
+  }
+
+  if (currentPage === 'about') {
+    return <About onBack={() => setCurrentPage('dashboard')} />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
       {/* Animated background elements */}
@@ -72,7 +90,49 @@ const Index = () => {
       </div>
 
       <div className="relative z-10">
-        <Header />
+        {/* Enhanced Header with Navigation */}
+        <header className="w-full py-6 px-4 border-b border-white/10">
+          <div className="container mx-auto flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold">Z</span>
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-white">Zephyre</h2>
+                <p className="text-sm text-white/60">Derma AI Dashboard</p>
+              </div>
+            </div>
+            
+            <nav className="hidden md:flex items-center space-x-6">
+              <Button
+                variant="ghost"
+                onClick={() => setCurrentPage('dashboard')}
+                className="text-white/80 hover:text-white hover:bg-white/10"
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Dashboard
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setCurrentPage('profile')}
+                className="text-white/80 hover:text-white hover:bg-white/10"
+              >
+                <User className="h-4 w-4 mr-2" />
+                Profile
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setCurrentPage('about')}
+                className="text-white/80 hover:text-white hover:bg-white/10"
+              >
+                <Info className="h-4 w-4 mr-2" />
+                About
+              </Button>
+            </nav>
+
+            <ThemeToggle />
+          </div>
+        </header>
         
         <div className="container mx-auto px-4 py-8">
           {/* Hero Section */}
@@ -143,9 +203,14 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Theme Toggle */}
-        <div className="fixed bottom-6 right-6">
-          <ThemeToggle />
+        {/* Quick Actions */}
+        <div className="fixed bottom-6 right-6 flex flex-col space-y-3">
+          <Button
+            onClick={() => setCurrentPage('profile')}
+            className="rounded-full w-12 h-12 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 shadow-lg"
+          >
+            <User className="h-5 w-5" />
+          </Button>
         </div>
       </div>
     </div>
