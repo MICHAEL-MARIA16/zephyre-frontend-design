@@ -87,7 +87,7 @@ export const Landing: React.FC<LandingProps> = ({ onGetStarted }) => {
               <p className="text-sm text-white/60">Derma AI</p>
             </div>
           </div>
-          <ThemeToggle />
+          
         </div>
       </header>
 

@@ -149,7 +149,7 @@ const Index = () => {
               </Button>
             </nav>
 
-            <ThemeToggle />
+            
           </div>
         </header>
         
