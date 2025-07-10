@@ -119,6 +119,17 @@ export const Landing: React.FC<LandingProps> = ({ onGetStarted }) => {
                 variant="outline" 
                 size="lg"
                 className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg rounded-full"
+                onClick={() => {
+                  const learnMoreText = `
+"Beneath the clouds, your skin speaks.
+Zephyre listens, with code as its conscience.
+A lens, a moment, a weather-tuned whisper.
+Not just advice — a ritual, reborn.
+Let your skin breathe with Zephyre."
+
+Experience the future of personalized skincare with AI-powered analysis that adapts to your environment.`;
+                  alert(learnMoreText);
+                }}
               >
                 Learn More
                 <ChevronDown className="ml-2 h-5 w-5" />
