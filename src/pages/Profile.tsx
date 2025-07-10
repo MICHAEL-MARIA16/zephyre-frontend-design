@@ -8,18 +8,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface ProfileProps {
   onBack: () => void;
+  userName: string;
+  skinAnalysis: any;
 }
 
-export const Profile: React.FC<ProfileProps> = ({ onBack }) => {
+export const Profile: React.FC<ProfileProps> = ({ onBack, userName, skinAnalysis }) => {
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Mock user data
+  // Mock user data with actual user name
   const userData = {
-    name: "Sarah Johnson",
+    name: userName || "Demo User",
     joinDate: "March 2024",
     totalAnalyses: 23,
-    currentSkinType: "combination",
-    skinScore: 78,
+    currentSkinType: skinAnalysis?.skinType || "combination",
+    skinScore: skinAnalysis?.confidence || 78,
     improvementRate: 12
   };
 
@@ -112,11 +114,47 @@ export const Profile: React.FC<ProfileProps> = ({ onBack }) => {
             ← Back to Dashboard
           </Button>
           <div className="flex items-center space-x-3">
-            <Button variant="outline" size="sm" className="border-white/30 text-white hover:bg-white/10">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="border-white/30 text-white hover:bg-white/10"
+              onClick={() => {
+                if (navigator.share) {
+                  navigator.share({
+                    title: 'My Zephyre Skin Analysis',
+                    text: `Check out my skin analysis results from Zephyre! Skin type: ${userData.currentSkinType}, Score: ${userData.skinScore}%`,
+                    url: window.location.href
+                  });
+                } else {
+                  navigator.clipboard.writeText(`My Zephyre Results: ${userData.currentSkinType} skin, ${userData.skinScore}% confidence`);
+                  alert('Results copied to clipboard!');
+                }
+              }}
+            >
               <Share2 className="h-4 w-4 mr-2" />
               Share
             </Button>
-            <Button variant="outline" size="sm" className="border-white/30 text-white hover:bg-white/10">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="border-white/30 text-white hover:bg-white/10"
+              onClick={() => {
+                const reportData = {
+                  name: userData.name,
+                  skinType: userData.currentSkinType,
+                  confidence: userData.skinScore,
+                  date: new Date().toLocaleDateString(),
+                  analyses: userData.totalAnalyses
+                };
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reportData, null, 2));
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.setAttribute("href", dataStr);
+                downloadAnchor.setAttribute("download", `zephyre-report-${userData.name.replace(/\s+/g, '-')}.json`);
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                downloadAnchor.remove();
+              }}
+            >
               <Download className="h-4 w-4 mr-2" />
               Export
             </Button>
@@ -132,7 +170,8 @@ export const Profile: React.FC<ProfileProps> = ({ onBack }) => {
               </div>
               <div className="flex-1">
                 <h1 className="text-3xl font-bold text-white mb-2">{userData.name}</h1>
-                <p className="text-white/60 mb-4">Member since {userData.joinDate}</p>
+                <p className="text-white/60 mb-2">Member since {userData.joinDate}</p>
+                <p className="text-amber-400/80 text-sm mb-4">📊 Note: This profile shows demo data for demonstration purposes</p>
                 <div className="flex items-center space-x-6">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-white">{userData.totalAnalyses}</div>
@@ -226,7 +265,45 @@ export const Profile: React.FC<ProfileProps> = ({ onBack }) => {
                       <p>Detected: Combination skin</p>
                     </div>
                   </div>
-                  <Button className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600">
+                  <Button 
+                    className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600"
+                    onClick={() => {
+                      const report = `
+=== ZEPHYRE SKIN ANALYSIS REPORT ===
+User: ${userData.name}
+Date: ${new Date().toLocaleDateString()}
+Skin Type: ${userData.currentSkinType.toUpperCase()}
+Confidence: ${userData.skinScore}%
+Total Analyses: ${userData.totalAnalyses}
+
+Latest Analysis Notes:
+${skinAnalysis?.additionalNotes || 'No recent analysis available'}
+
+Weather Conditions:
+${skinAnalysis?.weather ? `${skinAnalysis.weather.condition}, ${skinAnalysis.weather.temperature}°C, ${skinAnalysis.weather.humidity}% humidity` : 'Not available'}
+
+Recommendations:
+- Continue regular skin analysis
+- Follow weather-adapted skincare routine
+- Monitor skin health progress
+
+Generated by Zephyre - Your Weather-Powered Derma AI
+                      `;
+                      
+                      const newWindow = window.open('', '_blank');
+                      if (newWindow) {
+                        newWindow.document.write(`
+                          <html>
+                            <head><title>Zephyre Full Report - ${userData.name}</title></head>
+                            <body style="font-family: monospace; padding: 20px; background: #f5f5f5;">
+                              <pre>${report}</pre>
+                              <button onclick="window.print()" style="margin-top: 20px; padding: 10px 20px; background: #6366f1; color: white; border: none; border-radius: 5px; cursor: pointer;">Print Report</button>
+                            </body>
+                          </html>
+                        `);
+                      }
+                    }}
+                  >
                     View Full Report
                   </Button>
                 </CardContent>

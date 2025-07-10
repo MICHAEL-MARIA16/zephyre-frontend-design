@@ -8,9 +8,10 @@ import { toast } from "sonner";
 interface WebcamCaptureProps {
   onCapture: (imageData: string) => void;
   isAnalyzing: boolean;
+  disabled?: boolean;
 }
 
-export const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, isAnalyzing }) => {
+export const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, isAnalyzing, disabled = false }) => {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [isWebcamActive, setIsWebcamActive] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
@@ -132,9 +133,13 @@ export const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, isAnaly
         {!capturedImage && (
           <div className="flex flex-col sm:flex-row gap-3">
             {!isWebcamActive ? (
-              <Button onClick={startWebcam} className="flex-1">
+              <Button 
+                onClick={startWebcam} 
+                disabled={disabled}
+                className="flex-1 disabled:opacity-50"
+              >
                 <Camera className="h-4 w-4 mr-2" />
-                Start Webcam
+                {disabled ? 'Enter Name First' : 'Start Webcam'}
               </Button>
             ) : (
               <Button onClick={stopWebcam} variant="outline" className="flex-1">
@@ -144,11 +149,12 @@ export const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, isAnaly
             
             <Button 
               onClick={() => fileInputRef.current?.click()}
+              disabled={disabled}
               variant="outline" 
-              className="flex-1"
+              className="flex-1 disabled:opacity-50"
             >
               <Upload className="h-4 w-4 mr-2" />
-              Upload Image
+              {disabled ? 'Enter Name First' : 'Upload Image'}
             </Button>
           </div>
         )}
