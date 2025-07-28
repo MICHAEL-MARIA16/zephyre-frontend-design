@@ -20,21 +20,52 @@ export const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, isAnaly
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const startWebcam = useCallback(async () => {
+    // Simulate webcam capture with a demo image
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { width: 640, height: 480 } 
-      });
-      setStream(mediaStream);
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
+      // Create a canvas with a demo skin analysis image
+      const canvas = document.createElement('canvas');
+      canvas.width = 640;
+      canvas.height = 480;
+      const context = canvas.getContext('2d');
+      
+      if (context) {
+        // Create a gradient background to simulate skin
+        const gradient = context.createLinearGradient(0, 0, 640, 480);
+        gradient.addColorStop(0, '#F4C2A1');
+        gradient.addColorStop(0.5, '#E8B893');
+        gradient.addColorStop(1, '#D4A574');
+        
+        context.fillStyle = gradient;
+        context.fillRect(0, 0, 640, 480);
+        
+        // Add some texture to simulate skin
+        context.fillStyle = 'rgba(200, 160, 120, 0.3)';
+        for (let i = 0; i < 200; i++) {
+          const x = Math.random() * 640;
+          const y = Math.random() * 480;
+          context.beginPath();
+          context.arc(x, y, Math.random() * 2, 0, Math.PI * 2);
+          context.fill();
+        }
+        
+        // Add demo text
+        context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        context.font = '20px Arial';
+        context.textAlign = 'center';
+        context.fillText('Demo Skin Analysis', 320, 240);
+        context.font = '14px Arial';
+        context.fillText('Click capture to analyze', 320, 270);
+        
+        const imageData = canvas.toDataURL('image/jpeg', 0.8);
+        setCapturedImage(imageData);
+        onCapture(imageData);
+        toast.success("Demo image captured! Starting skin analysis...");
       }
-      setIsWebcamActive(true);
-      toast.success("Webcam activated successfully!");
     } catch (error) {
-      console.error("Error accessing webcam:", error);
-      toast.error("Unable to access webcam. Please try uploading an image instead.");
+      console.error("Error creating demo image:", error);
+      toast.error("Unable to create demo capture.");
     }
-  }, []);
+  }, [onCapture]);
 
   const stopWebcam = useCallback(() => {
     if (stream) {
@@ -132,20 +163,14 @@ export const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, isAnaly
         {/* Control Buttons */}
         {!capturedImage && (
           <div className="flex flex-col sm:flex-row gap-3">
-            {!isWebcamActive ? (
-              <Button 
-                onClick={startWebcam} 
-                disabled={disabled}
-                className="flex-1 disabled:opacity-50"
-              >
-                <Camera className="h-4 w-4 mr-2" />
-                {disabled ? 'Enter Name First' : 'Start Webcam'}
-              </Button>
-            ) : (
-              <Button onClick={stopWebcam} variant="outline" className="flex-1">
-                Stop Webcam
-              </Button>
-            )}
+            <Button 
+              onClick={startWebcam} 
+              disabled={disabled}
+              className="flex-1 disabled:opacity-50"
+            >
+              <Camera className="h-4 w-4 mr-2" />
+              {disabled ? 'Enter Name First' : 'Capture Demo Image'}
+            </Button>
             
             <Button 
               onClick={() => fileInputRef.current?.click()}
