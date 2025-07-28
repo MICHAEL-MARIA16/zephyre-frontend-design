@@ -1,73 +1,75 @@
-# Welcome to your Lovable project
+# 🎉 Welcome to Zephyre — Your Personalized Skincare Companion
 
-## Project info
+## 🚀 Project Info
 
-**URL**: https://lovable.dev/projects/4343bd96-2661-4ef2-863b-ffc4e62c0e40
+**Live App**: [zephyre-frontend-startup-ready-page.vercel.app](https://zephyre-frontend-startup-ready-page.vercel.app)
 
-## How can I edit this code?
+Zephyre is a smart skincare assistant that analyzes your skin type via AI, checks real-time weather, and delivers curated skincare tips tailored just for you. It’s sleek, responsive, and designed to empower users with science-backed derma decisions.
 
-There are several ways of editing your application.
+## 🛠 How I Built This
 
-**Use Lovable**
+This project was entirely built by me from scratch — ideation, frontend, and deployment. Every feature was carefully designed to ensure responsiveness, functionality, and aesthetic appeal.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/4343bd96-2661-4ef2-863b-ffc4e62c0e40) and start prompting.
+### ✨ Technologies Used:
 
-Changes made via Lovable will be committed automatically to this repo.
+* Vite
+* React + TypeScript
+* Tailwind CSS + shadcn/ui
+* Deployed with Vercel
 
-**Use your preferred IDE**
+## 💻 How to Run Locally
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+```bash
+# Step 1: Clone the repo
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Step 2: Move into the project directory
+cd zephyre
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Step 3: Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Step 4: Start development server
 npm run dev
 ```
+## 📦 Features
+📱 Responsive design – Mobile-first and optimized for all screen sizes.
 
-**Edit a file directly in GitHub**
+🛒 Add to Cart – Interactive and intuitive product interaction.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+❤️ Liked Products Page – Track your favorite picks easily.
 
-**Use GitHub Codespaces**
+🔐 Authentication Check – Secure access to protected routes.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+⚙️ Dynamic Routing – Seamless navigation across product detail pages.
 
-## What technologies are used for this project?
 
-This project is built with:
+## 🌍 Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Live and running on [Vercel](https://vercel.com).
+Just run `npm run build` and deploy via Git or Vercel dashboard.
 
-## How can I deploy this project?
+## 🖼 Screenshots
 
-Simply open [Lovable](https://lovable.dev/projects/4343bd96-2661-4ef2-863b-ffc4e62c0e40) and click on Share -> Publish.
+### Homepage Views
+![Home 1](./static/home1.png)
+![Home 2](./static/home2.png)
+![Home 3](./static/home3.png)
 
-## Can I connect a custom domain to my Lovable project?
+### Dashboard & Profile
+![Dashboard](./static/dashboard.png)
+![Profile](./static/profile.png)
 
-Yes, you can!
+### About Page
+![About](./static/about.png)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🌐 Custom Domain Setup
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+To connect a custom domain:
+
+* Go to your Vercel dashboard
+* Select the project
+* Navigate to **Settings > Domains**
+* Add your domain and verify
+
+📌 *Made with 💙 , TypeScript, and relentless curiosity..*
