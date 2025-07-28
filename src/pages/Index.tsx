@@ -230,7 +230,7 @@ const Index = () => {
               <WebcamCapture 
                 onCapture={handleImageCapture}
                 isAnalyzing={isAnalyzing}
-                disabled={!userName}
+                disabled={false}
               />
               
               {skinAnalysis && (
